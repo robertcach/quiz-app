@@ -1,14 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
 import QuestionCard from "./components/QuestionCard/QuestionCard";
-/* import { Difficulty } from "./services/APIService"; */
-import { fetchQuizQuestions, Difficulty } from "./services/APIService";
+import { fetchQuizQuestions, Difficulty, QuestionState } from "./services/APIService";
 import "./App.scss";
+
+type AnswerObject = {
+  question: string
+  answer: string; // user's answer
+  correct: boolean; // tell is user's answer is correct
+  correctAnswer: string;
+}
 
 const TOTAL_QUESTIONS = 10;
 
 function App() {
   const [loading, setLoading] = useState(false);
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState<QuestionState[]>([]); // This state's type is an array of 'QuestionState'
   const [questionNumber, setQuestionNumber] = useState(0);
   const [userAnswers, setUserAnswers] = useState([]);
   const [score, setScore] = useState(0);
