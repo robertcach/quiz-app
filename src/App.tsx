@@ -39,8 +39,25 @@ function App() {
     setLoading(false)
   }
 
-  const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const checkAnswer = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (!gameOver) {
+      const answer = event.currentTarget.value; // Get the value of the button
+      const correct = questions[questionNumber].correct_answer === answer // Check if the answer is correct
+      
+      if (correct) setScore(score + 1) 
 
+      // Create an object with the data from user's answer
+      const answerObject = {
+        question: questions[questionNumber].question,
+        answer,
+        correct,
+        correctAnswer: questions[questionNumber].correct_answer
+      }
+
+      // Save object adding in 'userAnswers' array
+      setUserAnswers([...userAnswers, answerObject])
+      console.log(userAnswers);
+    }
   }
 
   const nextQuestion = () => {
@@ -55,7 +72,7 @@ function App() {
         ) :
         null
       }
-      {!gameOver && <p>Score:</p>}
+      {!gameOver && <p>Score: {score}</p>}
       {loading && <p>Loading Questions...</p>}
       {!loading && !gameOver && (
         <QuestionCard
@@ -68,8 +85,11 @@ function App() {
         />)
       }
       
-
-      <button onClick={nextQuestion}>Next question</button>
+      {!gameOver && !loading && userAnswers.length === questionNumber + 1 && questionNumber !== TOTAL_QUESTIONS - 1 ? (
+        <button onClick={nextQuestion}>Next question</button>
+        ) :
+        null
+      }
     </div>
   );
 }
