@@ -57,14 +57,17 @@ function App() {
       }
       {!gameOver && <p>Score:</p>}
       {loading && <p>Loading Questions...</p>}
-{/*       <QuestionCard
-        questionNumber={questionNumber + 1}
-        totalQuestions={TOTAL_QUESTIONS}
-        question={questions[questionNumber].question}
-        answers={questions[questionNumber].answers}
-        userAnswer={userAnswers ? userAnswers[questionNumber] : undefined}
-        callback={checkAnswer}
-      /> */}
+      {!loading && !gameOver && (
+        <QuestionCard
+          questionNumber={questionNumber + 1}
+          totalQuestions={TOTAL_QUESTIONS}
+          question={questions[questionNumber].question}
+          answers={questions[questionNumber].answers}
+          userAnswer={userAnswers ? userAnswers[questionNumber] : undefined}
+          callback={checkAnswer}
+        />)
+      }
+      
 
       <button onClick={nextQuestion}>Next question</button>
     </div>
