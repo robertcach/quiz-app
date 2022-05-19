@@ -4,7 +4,7 @@ import QuestionCard from "./components/QuestionCard/QuestionCard";
 import { fetchQuizQuestions, Difficulty, QuestionState } from "./services/APIService";
 import "./App.scss";
 
-type AnswerObject = {
+export type AnswerObject = {
   question: string
   answer: string; // user's answer
   correct: boolean; // tell is user's answer is correct
@@ -61,7 +61,13 @@ function App() {
   }
 
   const nextQuestion = () => {
+    const nextQuestion = questionNumber + 1
 
+    if (nextQuestion === TOTAL_QUESTIONS) {
+      setGameOver(true)
+    } else {
+      setQuestionNumber(nextQuestion)
+    }
   }
   
   return (
