@@ -44,7 +44,10 @@ function App() {
       const answer = event.currentTarget.value; // Get the value of the button
       const correct = questions[questionNumber].correct_answer === answer // Check if the answer is correct
       
-      if (correct) setScore(score + 1) 
+      if (correct) {
+        setScore(score + 1)
+/*         const button = event.currentTarget */
+      }
 
       // Create an object with the data from user's answer
       const answerObject = {
