@@ -17,15 +17,26 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState<QuestionState[]>([]); // This state's type is an array of 'QuestionState'
   const [questionNumber, setQuestionNumber] = useState(0);
-  const [userAnswers, setUserAnswers] = useState([]);
+  const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true)
 
-
-  console.log(fetchQuizQuestions(TOTAL_QUESTIONS, Difficulty.EASY));
+/* 
+  console.log(fetchQuizQuestions(TOTAL_QUESTIONS, Difficulty.EASY)); */
 
   const startTrivia = async () => {
+    setLoading(true);
+    setGameOver(false);
 
+    const newQuestions = await fetchQuizQuestions(TOTAL_QUESTIONS, Difficulty.EASY)
+    // save data from fetch API
+
+    setQuestions(newQuestions) // Set 'questions' state with the variables witch has the data from fetch API
+    console.log(newQuestions);
+    setScore(0);
+    setUserAnswers([])
+    setQuestionNumber(0)
+    setLoading(false)
   }
 
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -39,9 +50,13 @@ function App() {
   return (
     <div className="App">
       <h1>Quiz App</h1>
-      <button onClick={startTrivia}>Start</button>
-      <p>Score:</p>
-      <p>Loading Questions...</p>
+      {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
+        <button onClick={startTrivia}>Start</button>
+        ) :
+        null
+      }
+      {!gameOver && <p>Score:</p>}
+      {loading && <p>Loading Questions...</p>}
 {/*       <QuestionCard
         questionNumber={questionNumber + 1}
         totalQuestions={TOTAL_QUESTIONS}
